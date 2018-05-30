@@ -91,7 +91,7 @@ def myTimer2():
                     myJson = {"myMessage": myMessage, "content": "null", "nodeID": nodeID, "seq": "null",
                               "nickname": "null",
                               "from": "null"}
-                    clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[temp]))
+                    serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[temp]))
 
                     requestFlag1 = 1
                     while True:
@@ -136,9 +136,9 @@ def waitInput():
             myJson = {"myMessage": "quit", "content": "null", "nodeID": nodeID, "seq": mySequenceNumber,
                       "nickname": nickname, "from": nodeID}
             for a in range(len(outgoingList)):
-                clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[a]]))
+                serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[a]]))
             for b in range(len(incomingList)):
-                clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[b]]))
+                serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[b]]))
 
             clientState = 1
             break
@@ -153,9 +153,9 @@ def waitInput():
                       "nickname": nickname, "from": nodeID}
 
             for k in range(len(outgoingList)):
-                clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
+                serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
             for l in range(len(incomingList)):
-                clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
+                serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
 
 
 def waitResponse():
@@ -170,7 +170,6 @@ def waitResponse():
     global requestFlag2
     global inputFlag
     global needReconnect
-    global clientSocket
     global serverSocket
 
     while True:
@@ -215,7 +214,7 @@ def waitResponse():
 
             myJson = {"myMessage": myMessage, "content": "null", "nodeID": nodeID, "seq": mySequenceNumber, "nickname": "null",
                       "from": "null"}
-            clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[src_node]))
+            serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[src_node]))
 
         elif responseMessage == "quit":
             if seq > seq_list[src_node]:
@@ -231,13 +230,13 @@ def waitResponse():
                         print(">> Connection Closed.")
                         needReconnect = 1
                     if outgoingList[k] != fromwhere:
-                        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
+                        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
                 for l in range(len(incomingList)):
                     if incomingList[l] == src_node:
                         print(">> Connection Closed.")
                         needReconnect = 2
                     if incomingList[l] != fromwhere:
-                        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
+                        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
 
                 if needReconnect == 1:
                     outgoingList.pop(outgoingList.index(src_node))
@@ -259,10 +258,10 @@ def waitResponse():
                           "nickname": src_nick, "from": nodeID}
                 for k in range(len(outgoingList)):
                     if outgoingList[k] != fromwhere:
-                        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
+                        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[k]]))
                 for l in range(len(incomingList)):
                     if incomingList[l] != fromwhere:
-                        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
+                        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[l]]))
 
 
 # Check the arguments for nickname.
@@ -304,8 +303,6 @@ except:
     print("")
     sys.exit(0)
 
-clientSocket = socket(AF_INET, SOCK_DGRAM)
-
 print("Welcome <", nickname, "> to P2P chat room at node <", (nodeID + 1), "> , serverPort <", serverPort, ">")
 
 t1 = threading.Thread(target=myTimer, args=())
@@ -343,7 +340,7 @@ try:
             myMessage = "Request Connection"
             myJson = {"myMessage": myMessage, "content": "null", "nodeID": nodeID, "seq": "null", "nickname": "null",
                       "from": "null"}
-            clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[temp]))
+            serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[temp]))
 
             requestFlag1 = 1
             while True:
@@ -360,6 +357,7 @@ try:
         time.sleep(0.01)
 
         if clientState == 1:
+            serverSocket.close()
             break
 
 except KeyboardInterrupt:
@@ -371,6 +369,9 @@ except KeyboardInterrupt:
     myJson = {"myMessage": "quit", "content": "null", "nodeID": nodeID, "seq": mySequenceNumber,
               "nickname": nickname, "from": nodeID}
     for a in range(len(outgoingList)):
-        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[a]]))
+        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[outgoingList[a]]))
     for b in range(len(incomingList)):
-        clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[b]]))
+        serverSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[incomingList[b]]))
+
+finally:
+    serverSocket.close()
