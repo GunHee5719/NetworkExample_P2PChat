@@ -190,11 +190,13 @@ def waitResponse():
                 outgoingNum += 1
                 requestFlag1 = 0
                 requestFlag2 = 0
+                seq_list[temp] = seq
 
         # When this client requested to other node for connection, this is one case of the node's response.
         elif responseMessage == "Connection NOK":
             requestFlag1 = 0
             requestFlag2 = 0
+            seq_list[temp] = seq
             print(">> Connection refused from node <", (temp + 1), ">")
 
         # When this client requested from other node for connection, this client will response in this line if it is running.
@@ -211,7 +213,7 @@ def waitResponse():
                 incomingList.append(src_node)
                 incomingNum += 1
 
-            myJson = {"myMessage": myMessage, "content": "null", "nodeID": nodeID, "seq": "null", "nickname": "null",
+            myJson = {"myMessage": myMessage, "content": "null", "nodeID": nodeID, "seq": mySequenceNumber, "nickname": "null",
                       "from": "null"}
             clientSocket.sendto(json.dumps(myJson).encode(), (serverName, portList[src_node]))
 
@@ -294,7 +296,13 @@ else:
 
 serverPort = portList[nodeID]
 serverSocket = socket(AF_INET, SOCK_DGRAM)
-serverSocket.bind(('nsl2.cau.ac.kr', serverPort))
+
+try:
+    serverSocket.bind(('nsl2.cau.ac.kr', serverPort))
+except:
+    print(">> Already using node number.")
+    print("")
+    sys.exit(0)
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
 
