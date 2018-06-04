@@ -24,7 +24,6 @@ seq_list = [0, 0, 0, 0]
 temp = 0
 requestFlag1 = 0
 requestFlag2 = 0
-inputFlag = 0
 clientState = 0
 needReconnect = 0
 myMessage = ""
@@ -54,7 +53,6 @@ def myTimer():
 
 def myTimer2():
     global needReconnect
-    global inputFlag
     global temp
     global requestFlag1
 
@@ -64,14 +62,16 @@ def myTimer2():
             time.sleep(1)
             # For reconnectiong
             print("")
-            print(">> Reconnecting... You Can not use chatting until connecting finished.")
-            inputFlag = 1
+            print(">> Reconnecting...")
             temp = 0
             while True:
                 if temp >= 4:
                     break
 
                 if outgoingNum >= 2:
+                    break
+
+                if (outgoingNum + incomingNum) >= 3:
                     break
 
                 alreadyConnected = 0
@@ -104,7 +104,6 @@ def myTimer2():
             print(">> Finish Reconnection! Use Chatting.")
             print("")
             needReconnect=0
-            inputFlag = 0
 
 
 def waitInput():
@@ -114,10 +113,7 @@ def waitInput():
     while True:
         myInput = input("")
 
-        if inputFlag == 1:
-            print(">> Please wait for connecting.")
-
-        elif myInput == "\connection":
+        if myInput == "\connection":
             print(" [Connection List]")
             serverAddress = serverSocket.getsockname()
             for i in range(len(outgoingList)):
@@ -168,7 +164,6 @@ def waitResponse():
     global temp
     global requestFlag1
     global requestFlag2
-    global inputFlag
     global needReconnect
     global serverSocket
 
@@ -326,12 +321,14 @@ try:
     # For connecting
     print("")
     print(">> Connecting...")
-    inputFlag = 1
     while True:
         if temp >= 4:
             break
 
         if outgoingNum >= 2:
+            break
+
+        if (outgoingNum + incomingNum) >= 3:
             break
 
         if temp == nodeID:
@@ -352,7 +349,6 @@ try:
 
     print(">> Finish Connection! Use Chatting.")
     print("")
-    inputFlag = 0
     while True:
         time.sleep(0.01)
 

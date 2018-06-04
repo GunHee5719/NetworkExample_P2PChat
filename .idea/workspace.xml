@@ -17,8 +17,8 @@
       <file leaf-file-name="P2PChat.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/P2PChat.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="456">
-              <caret line="359" column="32" selection-start-line="359" selection-start-column="32" selection-end-line="359" selection-end-column="32" />
+            <state relative-caret-position="1938">
+              <caret line="343" column="48" lean-forward="true" selection-start-line="343" selection-start-column="48" selection-end-line="343" selection-end-column="48" />
               <folding>
                 <element signature="e#38#58#0" expanded="true" />
               </folding>
@@ -41,6 +41,7 @@
       <find>connected</find>
       <find>connected with node</find>
       <find>clientSocket</find>
+      <find>inputFlag</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -136,6 +137,26 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/P2PChat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6821">
+          <caret line="359" column="32" selection-start-line="359" selection-start-column="32" selection-end-line="359" selection-end-column="32" />
+          <folding>
+            <element signature="e#38#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/P2PChat.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6821">
+          <caret line="359" column="32" selection-start-line="359" selection-start-column="32" selection-end-line="359" selection-end-column="32" />
+          <folding>
+            <element signature="e#38#58#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$USER_HOME$/Desktop/NetOmokClient.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1482">
@@ -249,8 +270,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/P2PChat.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="456">
-          <caret line="359" column="32" selection-start-line="359" selection-start-column="32" selection-end-line="359" selection-end-column="32" />
+        <state relative-caret-position="1938">
+          <caret line="343" column="48" lean-forward="true" selection-start-line="343" selection-start-column="48" selection-end-line="343" selection-end-column="48" />
           <folding>
             <element signature="e#38#58#0" expanded="true" />
           </folding>
